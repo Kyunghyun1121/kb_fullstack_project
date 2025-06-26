@@ -22,19 +22,26 @@
 
   <!-- 로그인 성공시 화면 -->
   <div v-else>
+    <hr />
     <h1>환영합니다</h1>
-    <div>
-      <button @click="handleLogout">로그 아웃</button>
-    </div>
+
+    <p>
+      <strong>사용자명: {{ userInfo.username }}</strong>
+    </p>
+
+    <button @click="handleLogout">로그 아웃</button>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
 // 로그인 상태 반응형 데이터
 const isLoggedIn = ref(false);
+
+// 사용자 정보 반응형 데이터
+const userInfo = ref({});
 
 // 로그인 입력 상태 반응형 데이터 (객체)
 const loginForm = ref({
@@ -82,4 +89,23 @@ const handleLogout = () => {
   // 상태 업데이트
   isLoggedIn.value = false;
 };
+
+// 로그인 상태 확인 함수
+const checkLoginStatus = () => {
+  const token = localStorage.getItem('authToken');
+  const savedUserInfo = localStorage.getItem('userInfo');
+
+  if (token && savedUserInfo) {
+    isLoggedIn.value = true;
+    userInfo.value = JSON.parse(savedUserInfo);
+  } else {
+    isLoggedIn.value = false;
+    userInfo.value = {};
+  }
+};
+
+// 컴포넌트 마운트 시 로그인 상태 확인
+onMounted(() => {
+  checkLoginStatus();
+});
 </script>
