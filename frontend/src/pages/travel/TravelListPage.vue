@@ -1,5 +1,5 @@
 <script setup></script>
 
 <template>
-  <h1>첫 번째 페이지</h1>
+  <h1>Travel List</h1>
 </template>

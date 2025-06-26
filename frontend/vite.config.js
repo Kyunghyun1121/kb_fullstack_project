@@ -31,6 +31,6 @@ export default defineConfig({
   // 빌드 설정
   build: {
     outDir:
-      'C:/Users/student/Desktop/kb_backend/scoula/backend/src/main/webapp/resources',
+      'C:/Users/student/Desktop/kb_fullstack/scoula/backend/src/main/webapp/resources',
   },
 });
