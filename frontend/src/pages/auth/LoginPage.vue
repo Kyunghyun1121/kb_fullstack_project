@@ -28,6 +28,12 @@
     <p>
       <strong>사용자명: {{ userInfo.username }}</strong>
     </p>
+    <p>
+      <strong>이메일: {{ userInfo.email }}</strong>
+    </p>
+    <p>
+      <strong>권한: {{ userInfo.roles }}</strong>
+    </p>
 
     <button @click="handleLogout">로그 아웃</button>
   </div>

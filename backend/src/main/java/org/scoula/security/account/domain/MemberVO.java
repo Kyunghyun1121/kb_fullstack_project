@@ -3,12 +3,14 @@ package org.scoula.security.account.domain;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class MemberVO {
   private String username;              // 사용자 ID
   private String password;              // 암호화된 비밀번호

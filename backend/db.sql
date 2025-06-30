@@ -55,7 +55,7 @@ values
 
 
 /* 게시글 조회 + 첨부파일 조회 테스트 */
-USE scoula_db
+USE scoula_db;
 
 -- 테스트용 게시글 삽입
 INSERT INTO tbl_board (title, content, writer)
