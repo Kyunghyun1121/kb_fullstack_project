@@ -4,7 +4,7 @@ import org.scoula.security.account.domain.AuthVO;
 import org.scoula.security.account.domain.MemberVO;
 
 public interface MemberMapper {
-  MemberVO get(String username);
+  MemberVO get(String username);  // 회원 조회 (권한 포함)
 
   MemberVO findByUsername(String username); // id 중복 체크시 사용
 

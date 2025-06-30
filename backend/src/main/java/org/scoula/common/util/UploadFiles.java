@@ -1,5 +1,10 @@
 package org.scoula.common.util;
 
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -47,6 +52,24 @@ public class UploadFiles {
 
     return new DecimalFormat("#,##0.#")
             .format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+  }
+
+  public static void downloadImage(HttpServletResponse response, File file) {
+    try {
+      Path path = Path.of(file.getPath());
+      String mimeType = Files.probeContentType(path);        // MIME 타입 자동 감지
+
+      response.setContentType(mimeType);                     // Content-Type 설정
+      response.setContentLength((int) file.length());        // Content-Length 설정
+
+      // 파일을 응답 스트림으로 복사
+      try (OutputStream os = response.getOutputStream();
+          BufferedOutputStream bos = new BufferedOutputStream(os)) {
+        Files.copy(path, bos);
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

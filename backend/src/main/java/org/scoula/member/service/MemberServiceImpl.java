@@ -21,15 +21,19 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-  final PasswordEncoder passwordEncoder;
-  final MemberMapper mapper;
+  final PasswordEncoder passwordEncoder;  // 비밀번호 암호화
+  final MemberMapper mapper;              // 데이터 접근
 
+
+  // 아이디 중복 체크
   @Override
   public boolean checkDuplicate(String username) {
     MemberVO member = mapper.findByUsername(username);
-    return member != null ? true : false;
+    //return member != null ? true : false;  // true: 중복(사용불가), false: 사용가능
+    return member!= null;
   }
 
+  // 회원 정보 조회
   @Override
   public MemberDTO get(String username) {
     MemberVO member = Optional.ofNullable(mapper.get(username))
@@ -37,28 +41,40 @@ public class MemberServiceImpl implements MemberService {
     return MemberDTO.of(member);
   }
 
-  private void saveAvatar(MultipartFile avatar, String username) {//아바타 업로드
-    if (avatar != null && !avatar.isEmpty()) {
+  // 아바타 파일 저장
+  private void saveAvatar(MultipartFile avatar, String username) {
+    if(avatar != null && !avatar.isEmpty()) {
       File dest = new File("c:/upload/avatar", username + ".png");
       try {
-        avatar.transferTo(dest);
+        avatar.transferTo(dest);  // 파일 저장
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     }
   }
 
-  @Transactional
+  // 회원 가입(선언적 트랜잭션 처리)
+  @Transactional  // 트랜잭션 처리 보장
   @Override
   public MemberDTO join(MemberJoinDTO dto) {
     MemberVO member = dto.toVO();
-    member.setPassword(passwordEncoder.encode(member.getPassword())); // 비밀번호 암호화
+
+    // 1. 비밀번호 암호화
+    member.setPassword(passwordEncoder.encode(member.getPassword()));
+
+    // 2. 회원정보 저장
     mapper.insert(member);
+
+    // 3. 권한정보 저장
     AuthVO auth = new AuthVO();
     auth.setUsername(member.getUsername());
-    auth.setAuth("ROLE_MEMBER");
+    auth.setAuth("ROLE_MEMBER");  // 기본 권한 설정
     mapper.insertAuth(auth);
+
+    // 4. 아바타 파일 저장
     saveAvatar(dto.getAvatar(), member.getUsername());
+
+    // 5. 저장된 회원정보 반환
     return get(member.getUsername());
   }
 }

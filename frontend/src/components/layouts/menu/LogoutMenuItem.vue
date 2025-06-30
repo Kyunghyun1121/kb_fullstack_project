@@ -1,10 +1,14 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+
+const store = useAuthStore();
 
 const router = useRouter();
 
 const logout = (e) => {
-  // 실제 로그아웃 로직 구현 예정
+  // 로그아웃
+  store.logout();
   router.push('/');
 };
 </script>

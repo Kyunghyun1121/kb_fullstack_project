@@ -12,7 +12,7 @@ import config from '@/config';
 <style scoped>
 .jumbotron {
   background-image: url('@/assets/images/background.jfif');
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: center;
   background-size: cover;
   color: white;

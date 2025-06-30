@@ -16,13 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberDTO {
   private String username;
   private String email;
-  private Date regDate;
-  private Date updateDate;
-
+  private Date regDate;              // 등록일
+  private Date updateDate;           // 수정일
   private MultipartFile avatar;
+  private List<String> authList;     // 권한 목록 (join 처리 필요)
 
-  private List<String> authList; // 권한 목록, join 처리 필요
-
+  // MemberVO에서 DTO 생성 (정적 팩토리 메서드)
   public static MemberDTO of(MemberVO m) {
     return MemberDTO.builder()
         .username(m.getUsername())

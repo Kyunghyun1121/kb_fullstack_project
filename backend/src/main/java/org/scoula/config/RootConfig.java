@@ -25,10 +25,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @PropertySource({"classpath:/application.properties"})
-@MapperScan(basePackages = {"org.scoula.board.mapper",
-    "org.scoula.member.mapper"})
-@ComponentScan(basePackages = {"org.scoula.board.service",
-    "org.scoula.member.service"})
+@MapperScan(basePackages = {
+    "org.scoula.board.mapper",
+    "org.scoula.member.mapper"  // 회원 매퍼 스캔
+})
+@ComponentScan(basePackages = {
+    "org.scoula.board.service",
+    "org.scoula.member.service"  // 회원 서비스 스캔
+})
 @Log4j2
 @EnableTransactionManagement
 //@MapperScan(basePackages = {"org.scoula.mapper"}) // Mapper 인터페이스 스캔 설정
