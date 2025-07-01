@@ -48,6 +48,7 @@ export default {
     return data;
   },
 
+  // 비밀번호 변경
   async changePassword(formData) {
     const { data } = await api.put(
       `${BASE_URL}/${formData.username}/changepassword`,

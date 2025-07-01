@@ -9,6 +9,6 @@ public interface MemberService {
   boolean checkDuplicate(String username);     // ID 중복 체크
   MemberDTO get(String username);              // 회원 조회
   MemberDTO join(MemberJoinDTO member);        // 회원가입
-  MemberDTO update(MemberUpdateDTO member);
-  void changePassword(ChangePasswordDTO changePassword);
+  MemberDTO update(MemberUpdateDTO member);    // 회원정보 수정
+  void changePassword(ChangePasswordDTO changePassword);  // 비밀번호 변경
 }

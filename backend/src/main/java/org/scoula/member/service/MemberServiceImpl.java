@@ -81,24 +81,44 @@ public class MemberServiceImpl implements MemberService {
     return get(member.getUsername());
   }
 
+  // 회원 정보 수정 서비스
   @Override
   public MemberDTO update(MemberUpdateDTO member) {
+    // 1. 기존 회원 정보 조회
     MemberVO vo = mapper.get(member.getUsername());
-    if(!passwordEncoder.matches(member.getPassword(),vo.getPassword())) { // 비밀번호 일치 확인
+
+    // 2. 비밀번호 검증 (보안 핵심 로직)
+    // 여기서만 오류를 던지는데 이전 쿼리는
+    // DB에 영향을 주지 않는 SELECT문이므로 @Transactional을 성능을 위해 사용하지 않는다.
+    if(!passwordEncoder.matches(member.getPassword(), vo.getPassword())) {
       throw new PasswordMissmatchException();
     }
+
+    // 3. 회원정보 업데이트
     mapper.update(member.toVO());
+
+    // 4. 아바타 이미지 저장
     saveAvatar(member.getAvatar(), member.getUsername());
+
+    // 5. 업데이트된 정보 반환
     return get(member.getUsername());
   }
 
+  // 비밀번호 변경 서비스
   @Override
   public void changePassword(ChangePasswordDTO changePassword) {
+    // 1. 사용자 정보 조회
     MemberVO member = mapper.get(changePassword.getUsername());
+
+    // 2. 기존 비밀번호 검증
     if(!passwordEncoder.matches(changePassword.getOldPassword(), member.getPassword())) {
       throw new PasswordMissmatchException();
     }
+
+    // 3. 새 비밀번호 암호화
     changePassword.setNewPassword(passwordEncoder.encode(changePassword.getNewPassword()));
+
+    // 4. 데이터베이스 업데이트
     mapper.updatePassword(changePassword);
   }
 }

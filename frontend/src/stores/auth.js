@@ -10,6 +10,7 @@ const initState = {
     email: '', // 이메일
     roles: [], // 권한 목록
   },
+  avatarTimestamp: Date.now(), // 아바타 이미지 경로에 추가할 쿼리 스트링 값
 };
 
 // 스토어 정의
@@ -20,6 +21,19 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogin = computed(() => !!state.value.user.username); // 로그인 여부
   const username = computed(() => state.value.user.username); // 사용자명
   const email = computed(() => state.value.user.email); // 이메일
+
+  // 로그인 여부에 따라 avatar 이미지 다운로드 주소 변경
+  const avatarUrl = computed(() =>
+    state.value.user.username
+      ? `/api/member/${state.value.user.username}/avatar?t=${state.value.avatarTimestamp}`
+      : null
+  );
+
+  // 아바타 업데이트 액션 추가
+  const updateAvatar = () => {
+    state.value.avatarTimestamp = Date.now();
+    localStorage.setItem.apply('auth', JSON.stringify(state.value));
+  };
 
   // isLogin 사용자명 존재 여부로 로그인 상태 판단
   // username, email 반응형 데이터로 컴포넌트에서 자동 업데이트
@@ -60,9 +74,10 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  // 프로필 변경 후 로컬 상태 동기화 액션
   const changeProfile = (member) => {
-    state.value.user.email = member.email;
-    localStorage.setItem('auth', JSON.stringify(state.value));
+    state.value.user.email = member.email; // 이메일 업데이트
+    localStorage.setItem('auth', JSON.stringify(state.value)); // 로컬스토리지 동기화
   };
 
   // 스토어 초기화 시 자동 실행
@@ -77,5 +92,10 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     getToken,
+    changeProfile,
+
+    // avatar 관련부분 리텅
+    avatarUrl,
+    updateAvatar,
   };
 });

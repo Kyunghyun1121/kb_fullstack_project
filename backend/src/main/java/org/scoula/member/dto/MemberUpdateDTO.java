@@ -10,16 +10,16 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberUpdateDTO {
-  private String username;
-  private String password;
-  private String email;
+  private String username;        // 사용자 식별자 (수정 불가)
+  private String password;        // 현재 비밀번호 (인증용)
+  private String email;           // 수정할 이메일
+  MultipartFile avatar;           // 새로운 아바타 이미지
 
-  MultipartFile avatar;
-
+  // MemberVO 변환 메서드
   public MemberVO toVO() {
     return MemberVO.builder()
-        .username(username)
-        .email(email)
+        .username(username)     // 사용자명은 그대로 유지
+        .email(email)           // 이메일만 업데이트
         .build();
   }
 }

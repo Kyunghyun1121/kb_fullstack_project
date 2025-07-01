@@ -10,3 +10,8 @@
 // 프론트 엔드
 7. api에서 해당 메소드 관련 데이터 관리를 async로 추가
 8. 해당 기능 관련 page 퍼블리싱
+
+
+
+##  사용자 정의 예외 -> 프로젝트의 완성도를 많이 올려주기 때문에 만드는 것이 좋다.
+  spring에서는 runtimeException을 해야 @Transactional 처리 가능
