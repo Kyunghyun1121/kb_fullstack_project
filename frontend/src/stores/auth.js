@@ -60,6 +60,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const changeProfile = (member) => {
+    state.value.user.email = member.email;
+    localStorage.setItem('auth', JSON.stringify(state.value));
+  };
+
   // 스토어 초기화 시 자동 실행
   load();
 

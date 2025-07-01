@@ -138,6 +138,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
+        .antMatchers(HttpMethod.POST,"/api/member").authenticated()
+        .antMatchers(HttpMethod.PUT,"/api/member", "/api/member/*/changepassword").authenticated()
         // 일단 모든 접근 허용
         .anyRequest().permitAll();
 
