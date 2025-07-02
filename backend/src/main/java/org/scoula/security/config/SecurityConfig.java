@@ -84,12 +84,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    *
    * @return CharacterEncodingFilter 인스턴스
    */
-  public CharacterEncodingFilter encodingFilter() {
-    CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-    encodingFilter.setEncoding("UTF-8");           // UTF-8 인코딩 설정
-    encodingFilter.setForceEncoding(true);         // 강제 인코딩 적용
-    return encodingFilter;
-  }
+//  public CharacterEncodingFilter encodingFilter() {
+//    CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+//    encodingFilter.setEncoding("UTF-8");           // UTF-8 인코딩 설정
+//    encodingFilter.setForceEncoding(true);         // 강제 인코딩 적용
+//    return encodingFilter;
+//  }
 
 
   /**
@@ -106,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // - CSRF 필터는 Spring Security 환경에서 기본적으로 활성화 되어있음!
     http
         // 문자 인증 필터
-        .addFilterBefore(encodingFilter(), CsrfFilter.class)
+        //.addFilterBefore(encodingFilter(), CsrfFilter.class)
         // 인증 에러 필터
         .addFilterBefore(authenticationErrorFilter, UsernamePasswordAuthenticationFilter.class)
         // JWT 인증 필터
@@ -127,6 +127,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement()        // 세션 관리 설정
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);  // 무상태 모드
 
+    // 인증 요구 경로 설정
+    http
+        .authorizeRequests() // 경로별 접근 권한 설정
+        .antMatchers(HttpMethod.OPTIONS).permitAll()
+
+        //.anyRequest().authenticated(); // 현재는 모든 접근 허용 (개발 단계)
+
+        // 회원 관련 인증 요구 경로
+        .antMatchers(HttpMethod.POST, "/api/member").authenticated() // 회원 등록
+        .antMatchers(HttpMethod.PUT, "/api/member", "/api/member/*/changepassword").authenticated() // 회원 정보 수정, 비밀번호 변경
+
+
+        // 게시판 관련 인증 요구 경로
+        .antMatchers(HttpMethod.POST, "/api/board/**").authenticated() // 쓰기
+        .antMatchers(HttpMethod.PUT, "/api/board/**").authenticated()  // 수정
+        .antMatchers(HttpMethod.DELETE, "/api/board/**").authenticated() // 삭제
+
+        .anyRequest().permitAll(); // 나머지 허용
+
 /*    http
         .authorizeRequests() // 경로별 접근 권한 설정
         .antMatchers(HttpMethod.OPTIONS).permitAll()  //  org.springframework.http.HttpMethod
@@ -135,22 +154,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/security/admin").access("hasRole('ROLE_ADMIN')")    // ROLE_ADMIN 이상
         .anyRequest().authenticated(); // 나머지는 로그인 필요*/
 
-    // 인증 요구 경로 설정
-    http
-        .authorizeRequests() // 경로별 접근 권한 설정
-        .antMatchers(HttpMethod.OPTIONS).permitAll()
 
-        //.anyRequest().authenticated(); // 현재는 모든 접근 허용 (개발 단계) <- 삭제
-
-        // 🌐 회원 관련 공개 API (인증 불필요)
-        .antMatchers(HttpMethod.GET, "/api/member/checkusername/**").permitAll()     // ID 중복 체크
-        .antMatchers(HttpMethod.POST, "/api/member").permitAll()                    // 회원가입
-        .antMatchers(HttpMethod.GET, "/api/member/*/avatar").permitAll()            // 아바타 이미지
-
-        // 🔒 회원 관련 인증 필요 API
-        .antMatchers(HttpMethod.PUT, "/api/member/**").authenticated() // 회원 정보 수정, 비밀번호 변경
-
-        .anyRequest().permitAll(); // 나머지 허용
 
   }
 

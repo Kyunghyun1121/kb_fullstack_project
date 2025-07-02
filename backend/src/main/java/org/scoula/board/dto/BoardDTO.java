@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.domain.BoardVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor       // 기본 생성자
 @AllArgsConstructor      // 모든 필드 생성자
 @Builder                 // 빌더 패턴
+@Slf4j
 public class BoardDTO {
     @ApiModelProperty(
             value = "게시글 ID",

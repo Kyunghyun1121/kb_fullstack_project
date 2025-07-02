@@ -18,26 +18,29 @@ public interface BoardService {
    */
   public BoardDTO get(Long no);
 
+  /* *** CUD 메서드 - 처리된 객체를 반환하도록 변경 *** */
   /**
    * 게시글 등록
    * @param board 등록할 게시글 DTO
-   * @return 게시글 DTO
+   * @return 삽입 처리된 객체를 반환
    */
-  public BoardDTO create(BoardDTO board);
+  public BoardDTO create(BoardDTO board);    // 생성된 객체 반환
 
   /**
    * 게시글 수정
    * @param board 수정할 게시글 DTO
-   * @return 게시글 DTO
+   * @return 수정 처리된 객체를 반환
    */
   public BoardDTO update(BoardDTO board);
 
   /**
    * 게시글 삭제
    * @param no 삭제할 게시글 번호
-   * @return 게시글 DTO
+   * @return 삭제 성공 여부
    */
   public BoardDTO delete(Long no);
+  /* *** CUD 메서드 - 처리된 객체를 반환하도록 변경 *** */
+
 
   // 첨부파일 관련 메서드 추가
   public BoardAttachmentVO getAttachment(Long no);

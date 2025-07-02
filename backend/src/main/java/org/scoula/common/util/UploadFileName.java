@@ -7,7 +7,7 @@ public class UploadFileName {
    * @return timestamp가 추가된 고유 파일명
    */
   public static String getUniqueName(String filename) {
-    // 파일명과 확장자를 분리 - image.jpg
+    // 파일명과 확장자를 분리
     int ix = filename.lastIndexOf(".");
     String name = filename.substring(0, ix);        // 파일명 부분 추출
     String ext = filename.substring(ix + 1);        // 확장자 부분 추출
