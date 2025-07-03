@@ -26,6 +26,14 @@
         ORDER BY filename
     </select>
 
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from tbl_board
+    </select>
+    <select id="getPage" resultType="BoardVO">
+        select * from tbl_board order by no desc
+        limit #{offset}, #{amount}
+    </select>
+
 
     <!--  Create(등록) 기능 구현 - selectKey 활용 -->
     <insert id="create">

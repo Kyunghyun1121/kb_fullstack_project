@@ -6,6 +6,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.scoula.board.domain.BoardAttachmentVO;
+import org.scoula.common.pagination.Page;
+import org.scoula.common.pagination.PageRequest;
 import org.scoula.common.util.UploadFiles;
 import org.springframework.stereotype.Service;
 import org.scoula.board.domain.BoardVO;
@@ -147,5 +149,16 @@ public class BoardServiceImpl implements BoardService {
         throw new RuntimeException(e);
       }
     }
+  }
+
+
+
+  @Override
+  public Page<BoardDTO> getPage(PageRequest pageRequest) {
+    List<BoardVO> boards = boardMapper.getPage(pageRequest);
+    int totalCount = boardMapper.getTotalCount();
+
+    return Page.of(pageRequest, totalCount,
+        boards.stream().map(BoardDTO::of).toList());
   }
 }

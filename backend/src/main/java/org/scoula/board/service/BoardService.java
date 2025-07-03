@@ -3,6 +3,8 @@ package org.scoula.board.service;
 import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.dto.BoardDTO;
 import java.util.List;
+import org.scoula.common.pagination.Page;
+import org.scoula.common.pagination.PageRequest;
 
 public interface BoardService {
   /**
@@ -45,4 +47,7 @@ public interface BoardService {
   // 첨부파일 관련 메서드 추가
   public BoardAttachmentVO getAttachment(Long no);
   public boolean deleteAttachment(Long no);
+
+
+  Page<BoardDTO> getPage(PageRequest pageRequest);
 }

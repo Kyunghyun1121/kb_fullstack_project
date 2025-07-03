@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.domain.BoardVO;
+import org.scoula.common.pagination.PageRequest;
 
 public interface BoardMapper {
   // === 게시글 CRUD ===
@@ -18,4 +19,7 @@ public interface BoardMapper {
   List<BoardAttachmentVO> getAttachmentList(Long bno);       // 게시글별 첨부파일 목록
   BoardAttachmentVO getAttachment(Long no);                  // 첨부파일 상세 조회
   int deleteAttachment(Long no);                             // 첨부파일 삭제
+
+  int getTotalCount();
+  List<BoardVO> getPage(PageRequest pageRequest);
 }

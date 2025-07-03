@@ -33,6 +33,10 @@ const submit = async () => {
   await boardApi.create(article);
   router.push('/board/list');
 };
+
+const resultData = await boardApi.create(article);
+console.log('no : ' + resultData.no);
+router.push(`/board/detail/${resultData.no}`);
 </script>
 
 <template>
@@ -78,14 +82,17 @@ const submit = async () => {
 
     <!-- 버튼 영역 -->
     <div class="my-5 text-center">
-      <button
+      <buttons
         type="submit"
         class="btn btn-primary me-3"
         :disabled="disableSubmit"
       >
         <i class="fa-solid fa-check"></i> 확인
-      </button>
-      <router-link class="btn btn-primary" :to="{ name: 'board/list' }">
+      </buttons>
+      <router-link
+        class="btn btn-primary"
+        :to="{ name: 'board/list', query: cr.query }"
+      >
         <i class="fa-solid fa-list"></i> 목록
       </router-link>
     </div>
