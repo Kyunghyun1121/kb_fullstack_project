@@ -1,11 +1,29 @@
-1. dto 생성
-2. mapper에 dto를 사용하는 메소드 생성
-3. mapper.xml에 sql문을 담은 메소드 생성
+0. vo생성
+1. mapper에 vo를 사용하는 메소드 생성
+2. mapper.xml에 sql문을 담은 메소드 생성
+3. dto 생성, vo를 dto로 변환하는 of 메소드도 생성
+
+   public static TravelDTO of(TravelVO vo) {
+          TravelDTO travel = TravelDTO.builder()
+                  .no(vo.getNo())
+                  .....
+
 4. service에 메소드 생성
 5. sevice Imple에 해당 메소드의 비즈니스 로직 구현
+  로직 구현시 Mapper의 메소드로 vo형식으로 받아온 후 DTO 형식으로 반환한다.
+
+      TravelImageVO image = travelMapper.getImage(no);
+      return TravelImageDTO.of(image);
+
 6. controller에서 경로와 매핑해서 responseEntity등으로 반환
-(+ 만약 해당 메소드의 디렉토리를 처음 만들어서 추가한 경우 메인의 rotconfig와 servletconfig에 해당
-  디렉토리를 컴포넌트 스캔 대상으로 등록해야 한다.)
+
+    @GetMapping("/{no}")
+    public ResponseEntity<TravelDTO> getTravels(@PathVariable("no") Long no) {
+      return ResponseEntity.ok(service.get(no));
+    }
+
+(+ 만약 해당 메소드의 디렉토리를 처음 만들어서 추가한 경우 메인의 rotconfig의 MapperScan과 ComponenetScan,
+  그리고 servletconfig에 해당 디렉토리를 컴포넌트 스캔 대상으로 등록해야 한다.)
 
 // 프론트 엔드
 7. api에서 해당 메소드 관련 데이터 관리를 async로 추가
@@ -15,3 +33,6 @@
 
 ##  사용자 정의 예외 -> 프로젝트의 완성도를 많이 올려주기 때문에 만드는 것이 좋다.
   spring에서는 runtimeException을 해야 @Transactional 처리 가능
+
+조회할 값이 PK같은 Unique한 값 -> pathvariable
+검색 조거느 필터링 등을 사용 -> QueryStirng
