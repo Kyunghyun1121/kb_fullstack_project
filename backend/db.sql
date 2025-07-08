@@ -153,3 +153,4 @@ SELECT
     x as travel_no  -- travel_no는 나중에 UPDATE로 설정
 FROM file_generator
 WHERE x <= 112;
+

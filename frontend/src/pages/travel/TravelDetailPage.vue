@@ -49,6 +49,7 @@ load();
     <!-- 지도 위치 (추후 구현) -->
     <div class="my-5">
       <!-- 지도 컴포넌트 영역 -->
+      <travel-map :title="travel.title" :address="travel.address" />
     </div>
 
     <!-- 네비게이션 버튼 -->

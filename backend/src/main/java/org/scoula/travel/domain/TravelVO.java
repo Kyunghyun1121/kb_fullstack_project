@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.scoula.travel.dto.TravelImageDTO;
 
 // 여행지 정보 VO
 @Data
@@ -19,4 +20,6 @@ public class TravelVO {
   private String address;               // 주소
   private String phone;                 // 연락처
   private List<TravelImageVO> images;   // 연결된 이미지 목록
+
+
 }
